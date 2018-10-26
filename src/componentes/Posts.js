@@ -8,6 +8,7 @@ class Posts extends Component {
                 <h2 className="text-center">Posts</h2>
                 <Listado 
                     posts={this.props.posts} 
+                    borrarPost={this.props.borrarPost}
                 />
             </div>    
         );
