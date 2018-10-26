@@ -4,10 +4,11 @@ import axios from 'axios';
 import Header from './Header';
 import Navegacion from './Navegacion';
 import Posts from './Posts';
+import SinglePost from './SinglePost';
 
 class Router extends Component {
     state = {
-        post : []
+        posts : []
     }
 
     componentDidMount () {
@@ -18,7 +19,7 @@ class Router extends Component {
         axios.get(`https://jsonplaceholder.typicode.com/posts`)
         .then(respuesta => {
             this.setState({
-                post: respuesta.data
+                posts: respuesta.data
             })
         })
     }
@@ -33,11 +34,27 @@ class Router extends Component {
                             <Route exact path="/" render={ () => {
                                 return ( 
                                     <Posts 
-                                        posts={this.state.post}
+                                        posts={this.state.posts}
                                     />  
                                 )
                             }                               
                             }
+                            />
+                            <Route exact path="/post/:postId" render={ (props) => {
+                                //Del pathname se tiene que quitar el /post/  para que solo quede el ID
+                                let idPost = props.location.pathname.replace('/post/', '');
+                                const posts = this.state.posts;
+                                let filtro;
+                                filtro = posts.filter(post => (
+                                    post.id == idPost
+                                ))
+                                return (
+                                    <SinglePost
+                                        post={filtro[0]}
+                                    />
+                                )
+                                
+                            }}
                             />
                         </Switch>       
                     </div>
