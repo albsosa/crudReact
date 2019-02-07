@@ -40,6 +40,7 @@ class Post extends Component {
                 <td>
                     <div className="btn-group" role="group" aria-label="Basic example">
                         <Link to={`/post/${id}`} className="btn btn-success"><i className="far fa-eye"></i></Link>
+                        <Link to={`/editar/${id}`} className="btn btn-warning"><i className="far fa-edit"></i></Link>
                         <button onClick={this.confirmarEliminacion}  type="button" className="btn btn-danger"><i className="fas fa-trash-alt"></i></button>
                     </div>
                 </td>

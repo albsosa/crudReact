@@ -6,7 +6,8 @@ import Navegacion from './Navegacion';
 import Posts from './Posts';
 import SinglePost from './SinglePost';
 import Formulario from './Formulario';
-import swal from 'sweetalert2'
+import swal from 'sweetalert2';
+import Editar from './Editar';
 
 class Router extends Component {
     state = {
@@ -44,6 +45,12 @@ class Router extends Component {
         axios.post(`https://jsonplaceholder.typicode.com/posts`, {post})
         .then(res => {
             if(res.status === 201){
+              
+                swal.fire(
+                  'Post Creado!',
+                  'El Post se creo correctamente!',
+                  'success'
+                )
                 let postId= {id: res.data.id};
                 const nuevoPost = Object.assign({}, res.data.post, postId);
                 this.setState(prevState=> ({
@@ -95,6 +102,22 @@ class Router extends Component {
                                 )
                             }                               
                             }
+                            />
+                            <Route exact path="/editar/:postId" render={ (props) => {
+                                //Del pathname se tiene que quitar el /editar/  para que solo quede el ID
+                                let idPost = props.location.pathname.replace('/editar/', '');
+                                const posts = this.state.posts;
+                                let filtro;
+                                filtro = posts.filter(post => (
+                                    post.id === Number(idPost)
+                                ))
+                                return (
+                                    <Editar
+                                        post={filtro[0]}
+                                    />
+                                )
+                                
+                            }}
                             />
                         </Switch>       
                     </div>
