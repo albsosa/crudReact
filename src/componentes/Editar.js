@@ -1,38 +1,59 @@
 import React, { Component } from 'react';
 
 class Editar extends Component {
-    tituloRef= React.createRef();
-    contenidoRef= React.createRef();
 
-    crearPost = (e) => {
-        e.preventDefault();
+     // crear los refs
+     tituloRef = React.createRef();
+     entradaRef = React.createRef();
 
-        //leer el ref
-        const post = {
-            title: this.tituloRef.current.value,
-            body: this.contenidoRef.current.value,
-            userId: 1
-        }
-        this.props.crearPost(post);
+     editarPost = (e) => {
+          e.preventDefault();
 
-    }
-    
-    render() { 
-        return ( 
-            <form onSubmit={this.crearPost} className="col-8">
-                <legend className="text-center">Editar post</legend>
-                <div className="form-group">
-                    <label>Titulo del Post:</label>
-                    <input type="text" ref={this.tituloRef} className="form-control" placeholder="Titulo del post" />
-                </div>
-                <div className="form-group">
-                    <label>Contenido:</label>
-                    <textarea className="form-control" ref={this.contenidoRef}></textarea>
-                </div>
-                <button className="btn btn-success" type="submit">Guardar</button>
-            </form>
-         );
-    }
+          // leer los refs
+          const post = {
+               title : this.tituloRef.current.value,
+               body: this.entradaRef.current.value,
+               userId: 1,
+               id: this.props.post.id
+          }
+
+          // console.log(post);
+
+          // enviar por props o petición de axios
+           this.props.editarPost(post);
+     }
+
+     cargarFormulario = () => {
+
+          if(!this.props.post) return null;
+
+          const {title, body} = this.props.post;
+
+          return(
+               <form onSubmit={this.editarPost} className="col-8">
+                    <legend className="text-center">Editar post</legend>
+                    <div className="form-group">
+                         <label>Titulo del Post:</label>
+                         <input type="text" ref={this.tituloRef} className="form-control" defaultValue={title} />
+                    </div>
+                    <div className="form-group">
+                         <label>Contenido: </label>
+                         <textarea className="form-control" ref={this.entradaRef}  defaultValue={body} ></textarea>
+                    </div>
+                    <button type="submit" className="btn btn-primary">Guardar Cambios</button>
+               </form>
+          )
+     }
+
+     render() { 
+
+          
+          return ( 
+               <React.Fragment>
+                    { this.cargarFormulario() }
+               </React.Fragment>
+           );
+     }
 }
  
 export default Editar;

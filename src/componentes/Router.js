@@ -60,6 +60,37 @@ class Router extends Component {
         })
 
     }
+    editarPost = (postActualizado) => {
+        //  console.log(postActualizado);
+
+         const {id} = postActualizado;
+
+         axios.put(`https://jsonplaceholder.typicode.com/posts/${id}`, {postActualizado})
+            .then(res => {
+                if(res.status === 200) {
+
+                    // swal(
+                    //     'Post Actualizado',
+                    //     'Se guardó correctamente',
+                    //     'success'
+                    // )
+
+                    // let postId = res.data.id;
+
+                    // const posts = [...this.state.posts];
+
+                    // const postEditar = posts.findIndex(post => postId === post.id );
+
+                    // posts[postEditar] = postActualizado;
+
+                    // this.setState({
+                    //     posts
+                    // })
+
+                    this.obtenerPost();
+                }
+            })
+     }
     render() { 
         return ( 
             <BrowserRouter>
@@ -114,6 +145,7 @@ class Router extends Component {
                                 return (
                                     <Editar
                                         post={filtro[0]}
+                                        editarPost={this.editarPost}
                                     />
                                 )
                                 
